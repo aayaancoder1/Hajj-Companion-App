@@ -1,49 +1,87 @@
 import React from 'react';
+import { Compass, BookOpen, MapPin, AlertCircle } from 'lucide-react';
 import { SectionHeader } from '../components/ui/SectionHeader';
-import { Card } from '../components/ui/Card';
-import { useAppStore } from '../store';
+import { PrayerCard } from '../components/home/PrayerCard';
+import { CityToggle } from '../components/home/CityToggle';
+import { CrowdCard } from '../components/home/CrowdCard';
+import { QuickActionCard } from '../components/home/QuickActionCard';
+import { QuoteCard } from '../components/home/QuoteCard';
+import { OfflineBanner } from '../components/home/OfflineBanner';
 
 export const Home: React.FC = () => {
-  const { selectedCity, isOffline } = useAppStore();
-
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
-      <header className="pt-2">
-        <h1 className="text-3xl font-serif font-bold text-primary">As-salamu alaykum</h1>
-        <p className="text-on-surface-variant mt-1 text-lg">Your calm companion in {selectedCity}</p>
+    <div className="flex flex-col gap-8 pb-8 animate-in fade-in duration-500">
+      
+      {/* 1. Greeting / Header Area */}
+      <header className="pt-2 flex flex-col gap-1">
+        <h1 className="text-3xl font-serif font-bold text-on-background tracking-tight">
+          Assalamu Alaikum, Pilgrim
+        </h1>
+        <p className="text-on-surface-variant text-base">
+          Today is 14 Dhul-Hijjah, 1445 AH
+        </p>
       </header>
 
-      {isOffline && (
-        <div className="bg-surface-variant text-on-surface-variant px-4 py-3 rounded-xl text-sm flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-outline"></div>
-          You are currently offline. Basic features are still available.
+      {/* 2. Offline Status Awareness */}
+      <OfflineBanner />
+
+      {/* 3. Makkah/Madinah City Toggle */}
+      <CityToggle />
+
+      {/* 4. Current Prayer Card & Next Prayer Countdown */}
+      <section>
+        <PrayerCard />
+      </section>
+
+      {/* 5 & 6. Crowd Guidance Recommendation & Intensity Indicator */}
+      <section>
+        <SectionHeader title="Best time to visit Kaaba" subtitle="Optimized for Tawaf clarity" />
+        <CrowdCard 
+          level="light" 
+          title="Lower Crowds" 
+          recommendation="Lower crowds predicted at 2:00 AM. Ideal for a peaceful spiritual experience." 
+        />
+      </section>
+
+      {/* 7. Quick Action Shortcuts */}
+      <section>
+        <SectionHeader title="Quick Actions" subtitle="Navigate your journey" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <QuickActionCard 
+            title="Haram Guide" 
+            description="Interactive maps and gates" 
+            icon={Compass} 
+            to="/guide" 
+          />
+          <QuickActionCard 
+            title="Rituals" 
+            description="Step-by-step guidance" 
+            icon={BookOpen} 
+            to="/rituals" 
+          />
+          <QuickActionCard 
+            title="Nearby" 
+            description="Pharmacies and essentials" 
+            icon={MapPin} 
+            to="/nearby" 
+          />
+          <QuickActionCard 
+            title="Emergency" 
+            description="Immediate assistance contacts" 
+            icon={AlertCircle} 
+            to="/emergency" 
+          />
         </div>
-      )}
-
-      <section>
-        <SectionHeader title="Current Prayer" subtitle="Upcoming in 1 hr 20 min" />
-        <Card className="p-6">
-          <div className="flex justify-between items-end">
-            <div>
-              <p className="text-on-surface-variant text-sm font-medium uppercase tracking-wider mb-1">Dhuhr</p>
-              <p className="text-4xl font-serif text-on-surface">12:30 PM</p>
-            </div>
-            <div className="text-right">
-              <p className="text-primary font-medium">Asr at 3:45 PM</p>
-            </div>
-          </div>
-        </Card>
       </section>
 
+      {/* 9. Contextual Information Cards */}
       <section>
-        <SectionHeader title="Haram Status" subtitle="Kaaba crowd level" />
-        <Card className="p-6 bg-primary-container/10 border-primary/20">
-          <h3 className="font-semibold text-lg text-primary mb-2">Manageable</h3>
-          <p className="text-on-surface-variant">
-            Current crowd levels are favorable. Recommended time to perform Tawaf.
-          </p>
-        </Card>
+        <QuoteCard 
+          quote="And proclaim to the people the Hajj [pilgrimage]; they will come to you on foot and on every lean camel; they will come from every distant pass."
+          source="Surah Al-Hajj, 22:27"
+        />
       </section>
+      
     </div>
   );
 };
