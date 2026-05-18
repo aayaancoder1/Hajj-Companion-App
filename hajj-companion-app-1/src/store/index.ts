@@ -13,6 +13,8 @@ interface AppState {
     notificationsEnabled: boolean;
   };
   updatePreferences: (prefs: Partial<AppState['preferences']>) => void;
+  ritualProgress: Record<string, boolean>;
+  toggleRitualTask: (taskId: string) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -30,10 +32,22 @@ export const useAppStore = create<AppState>()(
         set((state) => ({
           preferences: { ...state.preferences, ...prefs },
         })),
+      ritualProgress: {},
+      toggleRitualTask: (taskId) =>
+        set((state) => ({
+          ritualProgress: {
+            ...state.ritualProgress,
+            [taskId]: !state.ritualProgress[taskId],
+          },
+        })),
     }),
     {
       name: 'hajj-companion-storage',
-      partialize: (state) => ({ selectedCity: state.selectedCity, preferences: state.preferences }), // persist these only
+      partialize: (state) => ({ 
+        selectedCity: state.selectedCity, 
+        preferences: state.preferences,
+        ritualProgress: state.ritualProgress
+      }), // persist these only
     }
   )
 );

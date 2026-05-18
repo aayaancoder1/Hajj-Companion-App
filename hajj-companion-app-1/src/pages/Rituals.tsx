@@ -1,34 +1,42 @@
 import React from 'react';
 import { SectionHeader } from '../components/ui/SectionHeader';
-import { Card } from '../components/ui/Card';
+import { RitualTimeline } from '../components/rituals/RitualTimeline';
+import { DuaCard } from '../components/rituals/DuaCard';
+import { duas } from '../data/duas';
 
 export const Rituals: React.FC = () => {
   return (
-    <div className="flex flex-col gap-6 animate-in fade-in duration-500">
-      <SectionHeader title="Rituals" subtitle="Step-by-step guidance" />
+    <div className="flex flex-col gap-8 pb-8 animate-in fade-in duration-500">
       
-      <div className="grid gap-4">
-        <Card className="p-5">
-          <h3 className="font-semibold text-on-surface text-lg mb-2">Umrah Guide</h3>
-          <p className="text-on-surface-variant text-sm">
-            Ihram, Tawaf, Sa'i, and Halq/Taqsir.
-          </p>
-        </Card>
-        
-        <Card className="p-5 opacity-70">
-          <h3 className="font-semibold text-on-surface text-lg mb-2">Hajj Days</h3>
-          <p className="text-on-surface-variant text-sm">
-            8th to 13th of Dhul Hijjah steps.
-          </p>
-        </Card>
+      <header className="pt-2">
+        <h1 className="text-3xl font-serif font-bold text-on-background tracking-tight mb-2">
+          Ritual Journey
+        </h1>
+        <p className="text-on-surface-variant text-base">
+          Track your spiritual progress through the holy days.
+        </p>
+      </header>
 
-        <Card className="p-5">
-          <h3 className="font-semibold text-on-surface text-lg mb-2">Duas</h3>
-          <p className="text-on-surface-variant text-sm">
-            Supplications for various moments.
-          </p>
-        </Card>
-      </div>
+      <section>
+        <SectionHeader title="Journey Timeline" />
+        <RitualTimeline />
+      </section>
+
+      <section>
+        <SectionHeader title="Recommended Duas" subtitle="Supplications for your journey" />
+        <div className="flex flex-col gap-4">
+          {duas.map(dua => (
+            <DuaCard 
+              key={dua.id}
+              title={dua.title}
+              arabic={dua.arabic}
+              transliteration={dua.transliteration}
+              translation={dua.translation}
+            />
+          ))}
+        </div>
+      </section>
+
     </div>
   );
 };
