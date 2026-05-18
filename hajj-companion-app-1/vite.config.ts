@@ -19,9 +19,20 @@ export default defineConfig({
         display: 'standalone',
         icons: [
           {
-            src: '/favicon.svg',
+            src: '/icon.svg',
             sizes: '192x192',
             type: 'image/svg+xml'
+          },
+          {
+            src: '/icon.svg',
+            sizes: '512x512',
+            type: 'image/svg+xml'
+          },
+          {
+            src: '/icon.svg',
+            sizes: '512x512',
+            type: 'image/svg+xml',
+            purpose: 'maskable'
           }
         ]
       },
