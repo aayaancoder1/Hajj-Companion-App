@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { HotelCard } from '../components/nearby/HotelCard';
-import { hotelInfo } from '../data/hotelInfo';
+import { hotels } from '../data/hotelInfo';
 import { ImOkayButton } from '../components/emergency/ImOkayButton';
 import { EmergencyContactCard } from '../components/emergency/EmergencyContactCard';
 import { emergencyContacts } from '../data/emergencyContacts';
@@ -11,8 +11,12 @@ import { MedicalInfoCard } from '../components/emergency/MedicalInfoCard';
 import { medicalInfo } from '../data/medicalInfo';
 import { SupportTipCard } from '../components/emergency/SupportTipCard';
 import { supportTips } from '../data/supportTips';
+import { useAppStore } from '../store';
 
 export const Emergency: React.FC = () => {
+  const { selectedCity } = useAppStore();
+  const cityHotel = useMemo(() => hotels.find(h => h.city === selectedCity) || hotels[0], [selectedCity]);
+
   return (
     <div className="flex flex-col gap-8 pb-8 animate-in fade-in duration-500">
       <header className="pt-2">
@@ -32,7 +36,7 @@ export const Emergency: React.FC = () => {
       {/* 1. Hotel & Stay Information */}
       <section>
         <SectionHeader title="Your Hotel" subtitle="Show this to local authorities if lost" />
-        <HotelCard hotel={hotelInfo} />
+        <HotelCard hotel={cityHotel} />
       </section>
 
       {/* 5. Lost Guidance */}
