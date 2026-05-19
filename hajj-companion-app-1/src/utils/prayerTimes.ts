@@ -29,13 +29,31 @@ export const getPrayerTimes = (city: 'Makkah' | 'Madinah') => {
   return city === 'Makkah' ? makkahPrayers : madinahPrayers;
 };
 
+export const getRiyadhMinutesFromMidnight = (): number => {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Riyadh',
+    hour: 'numeric',
+    minute: 'numeric',
+    hourCycle: 'h23',
+  });
+  
+  const parts = formatter.formatToParts(now);
+  const hourPart = parts.find(p => p.type === 'hour');
+  const minutePart = parts.find(p => p.type === 'minute');
+  
+  const hours = hourPart ? parseInt(hourPart.value, 10) : 0;
+  const minutes = minutePart ? parseInt(minutePart.value, 10) : 0;
+  
+  return hours * 60 + minutes;
+};
+
 export const getCurrentAndNextPrayer = (city: 'Makkah' | 'Madinah', currentMinutes?: number) => {
   const prayers = getPrayerTimes(city);
   
-  const now = new Date();
   const minutesFromMidnight = currentMinutes !== undefined 
     ? currentMinutes 
-    : now.getHours() * 60 + now.getMinutes();
+    : getRiyadhMinutesFromMidnight();
 
   let current = prayers[prayers.length - 1];
   let next = prayers[0];
