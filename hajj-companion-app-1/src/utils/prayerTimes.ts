@@ -29,41 +29,13 @@ export const getPrayerTimes = (city: 'Makkah' | 'Madinah') => {
   return city === 'Makkah' ? makkahPrayers : madinahPrayers;
 };
 
-export const getRiyadhMinutesFromMidnight = (): number => {
-  const now = new Date();
-  
-  // Use en-GB which strictly defaults to 24-hour HH:mm format
-  // hour12: false explicitly forces 24-hour time across all engines
-  const formatter = new Intl.DateTimeFormat('en-GB', {
-    timeZone: 'Asia/Riyadh',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  });
-  
-  const timeString = formatter.format(now); // e.g., "14:30" or "00:45"
-  const match = timeString.match(/(\d+):(\d+)/);
-  
-  if (!match) {
-    // Ultimate fallback if formatting completely fails
-    return now.getHours() * 60 + now.getMinutes();
-  }
-  
-  let hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
-  
-  // Handle edge case where some browsers return 24 for midnight instead of 00
-  if (hours === 24) hours = 0;
-  
-  return hours * 60 + minutes;
-};
-
 export const getCurrentAndNextPrayer = (city: 'Makkah' | 'Madinah', currentMinutes?: number) => {
   const prayers = getPrayerTimes(city);
-  
-  const minutesFromMidnight = currentMinutes !== undefined 
-    ? currentMinutes 
-    : getRiyadhMinutesFromMidnight();
+
+  const now = new Date();
+  const minutesFromMidnight = currentMinutes !== undefined
+    ? currentMinutes
+    : now.getHours() * 60 + now.getMinutes();
 
   let current = prayers[prayers.length - 1];
   let next = prayers[0];
@@ -88,8 +60,18 @@ export const getCurrentAndNextPrayer = (city: 'Makkah' | 'Madinah', currentMinut
 
   const hours = Math.floor(diff / 60);
   const mins = diff % 60;
-  
+
   const countdown = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
 
   return { current, next, countdown };
+};
+diff = next.timeMinutes - minutesFromMidnight;
+  }
+
+const hours = Math.floor(diff / 60);
+const mins = diff % 60;
+
+const countdown = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+
+return { current, next, countdown };
 };
