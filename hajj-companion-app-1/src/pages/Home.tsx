@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, BookOpen, MapPin, AlertCircle } from 'lucide-react';
+import { Compass, BookOpen, MapPin, AlertCircle, FolderHeart } from 'lucide-react';
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { PrayerCard } from '../components/home/PrayerCard';
 import { CityToggle } from '../components/home/CityToggle';
@@ -44,8 +44,16 @@ export const Home: React.FC = () => {
       </section>
 
       {/* 7. Quick Action Shortcuts */}
-      <section>
+      <section className="flex flex-col gap-4">
         <SectionHeader title="Quick Actions" subtitle="Navigate your journey" />
+        
+        <QuickActionCard 
+          title="Documents Hub" 
+          description="Access passports, tickets, and bookings offline" 
+          icon={FolderHeart} 
+          to="/documents" 
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <QuickActionCard 
             title="Haram Guide" 
