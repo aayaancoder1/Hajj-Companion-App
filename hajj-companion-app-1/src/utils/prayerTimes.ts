@@ -31,19 +31,29 @@ export const getPrayerTimes = (city: 'Makkah' | 'Madinah') => {
 
 export const getRiyadhMinutesFromMidnight = (): number => {
   const now = new Date();
-  const formatter = new Intl.DateTimeFormat('en-US', {
+  
+  // Use en-GB which strictly defaults to 24-hour HH:mm format
+  // hour12: false explicitly forces 24-hour time across all engines
+  const formatter = new Intl.DateTimeFormat('en-GB', {
     timeZone: 'Asia/Riyadh',
-    hour: 'numeric',
-    minute: 'numeric',
-    hourCycle: 'h23',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
   });
   
-  const parts = formatter.formatToParts(now);
-  const hourPart = parts.find(p => p.type === 'hour');
-  const minutePart = parts.find(p => p.type === 'minute');
+  const timeString = formatter.format(now); // e.g., "14:30" or "00:45"
+  const match = timeString.match(/(\d+):(\d+)/);
   
-  const hours = hourPart ? parseInt(hourPart.value, 10) : 0;
-  const minutes = minutePart ? parseInt(minutePart.value, 10) : 0;
+  if (!match) {
+    // Ultimate fallback if formatting completely fails
+    return now.getHours() * 60 + now.getMinutes();
+  }
+  
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  
+  // Handle edge case where some browsers return 24 for midnight instead of 00
+  if (hours === 24) hours = 0;
   
   return hours * 60 + minutes;
 };
