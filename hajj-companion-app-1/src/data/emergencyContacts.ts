@@ -4,23 +4,22 @@ export interface EmergencyContact {
   role: string;
   phone: string;
   whatsapp?: string;
-  note: string;
+  note?: string;
 }
 
 export const emergencyContacts: EmergencyContact[] = [
   {
-    id: 'group-leader',
-    name: 'Ahmed Mansour',
-    role: 'Hajj Group Leader',
-    phone: '+966 50 123 4567',
-    whatsapp: '+966501234567',
-    note: 'Best for transport confusion or general guidance'
+    id: 'wife',
+    name: 'Abida',
+    role: 'Wife',
+    phone: '+91 9677125658',
+    whatsapp: '+919677125658'
   },
   {
-    id: 'medical-ems',
-    name: 'Red Crescent (Ambulance)',
-    role: 'Emergency Medical Services',
-    phone: '997',
-    note: 'Call for immediate medical emergencies'
+    id: 'son',
+    name: 'Aayaan',
+    role: 'Son',
+    phone: '+91 7801041620',
+    whatsapp: '+917801041620'
   }
 ];

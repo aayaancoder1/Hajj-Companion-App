@@ -14,9 +14,11 @@ export const EmergencyContactCard: React.FC<{ contact: EmergencyContact }> = ({ 
         </div>
       </div>
       
-      <p className="text-on-surface-variant text-sm mb-4 leading-snug bg-surface-variant/30 p-2.5 rounded-lg border border-outline-variant/30">
-        {contact.note}
-      </p>
+      {contact.note && (
+        <p className="text-on-surface-variant text-sm mb-4 leading-snug bg-surface-variant/30 p-2.5 rounded-lg border border-outline-variant/30">
+          {contact.note}
+        </p>
+      )}
 
       <div className="flex gap-3 mt-auto">
         <Button 

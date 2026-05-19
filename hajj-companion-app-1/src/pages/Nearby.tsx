@@ -28,6 +28,7 @@ export const Nearby: React.FC = () => {
 
   const restaurants = sortedPlaces.filter(p => p.category === 'restaurant');
   const pharmacies = sortedPlaces.filter(p => p.category === 'pharmacy');
+  const atms = sortedPlaces.filter(p => p.category === 'atm');
 
   return (
     <div className="flex flex-col gap-8 pb-8 animate-in fade-in duration-500">
@@ -75,7 +76,16 @@ export const Nearby: React.FC = () => {
         </CategorySection>
       )}
 
-      {restaurants.length === 0 && pharmacies.length === 0 && (
+      {/* ATMs */}
+      {atms.length > 0 && (
+        <CategorySection title="ATMs" subtitle="Cash withdrawals">
+          {atms.map(place => (
+            <NearbyPlaceCard key={place.id} place={place} />
+          ))}
+        </CategorySection>
+      )}
+
+      {restaurants.length === 0 && pharmacies.length === 0 && atms.length === 0 && cityShuttles.length === 0 && (
         <div className="flex flex-col items-center justify-center p-8 text-center bg-surface-variant/30 rounded-3xl mt-4 border border-outline-variant/30">
           <MapPin size={48} className="text-on-surface-variant/50 mb-4" strokeWidth={1} />
           <p className="text-on-surface font-medium">No places found</p>
