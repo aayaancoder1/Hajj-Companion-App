@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppStore } from '../../store';
 import { Info, Map as MapIcon, Droplets, ArrowUpRight } from 'lucide-react';
+import MapImage from './MapImage';
 
 export const MapContainer: React.FC = () => {
   const { selectedCity } = useAppStore();
@@ -11,21 +12,16 @@ export const MapContainer: React.FC = () => {
       {/* High Quality Static Map Container */}
       <div className="w-full aspect-[4/3] bg-surface-container rounded-3xl overflow-hidden border border-outline-variant/30 shadow-sm relative group cursor-crosshair">
         
-        {/* Placeholder for real static map image */}
-        <div className="absolute inset-0 flex items-center justify-center bg-surface-variant/20">
-          <svg viewBox="0 0 200 150" className="w-full h-full text-primary/10" fill="currentColor">
-            <rect x="50" y="30" width="100" height="90" rx="12" />
-            <circle cx="100" cy="75" r="20" className="text-background" />
-          </svg>
-        </div>
+        {/* Render static map image */}
+        <MapImage selectedCity={selectedCity} />
 
-        <div className="absolute inset-0 p-4 flex flex-col items-center justify-center text-center opacity-80">
+        <div className="absolute inset-0 p-4 flex flex-col items-center justify-center text-center opacity-80 pointer-events-none">
           <MapIcon size={32} className="text-primary mb-2 opacity-50" />
           <p className="text-primary font-medium text-sm">
-            [Static Map Image: {selectedCity}]
+            {selectedCity} Map
           </p>
           <p className="text-on-surface-variant text-xs mt-1 max-w-[200px]">
-            Pinch to zoom when image is added.
+            Pinch to zoom to explore details.
           </p>
         </div>
       </div>

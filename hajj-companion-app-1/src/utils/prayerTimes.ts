@@ -28,14 +28,29 @@ const madinahPrayers: PrayerTime[] = [
 export const getPrayerTimes = (city: 'Makkah' | 'Madinah') => {
   return city === 'Makkah' ? makkahPrayers : madinahPrayers;
 };
-
+// Returns minutes from midnight in Asia/Riyadh timezone
+export const getRiyadhMinutesFromMidnight = (): number => {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Asia/Riyadh',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+  const timeString = formatter.format(now);
+  const match = timeString.match(/(\d+):(\d+)/);
+  if (!match) return now.getHours() * 60 + now.getMinutes();
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  if (hours === 24) hours = 0;
+  return hours * 60 + minutes;
+};
 export const getCurrentAndNextPrayer = (city: 'Makkah' | 'Madinah', currentMinutes?: number) => {
   const prayers = getPrayerTimes(city);
 
-  const now = new Date();
   const minutesFromMidnight = currentMinutes !== undefined
     ? currentMinutes
-    : now.getHours() * 60 + now.getMinutes();
+    : getRiyadhMinutesFromMidnight();
 
   let current = prayers[prayers.length - 1];
   let next = prayers[0];
@@ -65,13 +80,4 @@ export const getCurrentAndNextPrayer = (city: 'Makkah' | 'Madinah', currentMinut
 
   return { current, next, countdown };
 };
-diff = next.timeMinutes - minutesFromMidnight;
-  }
 
-const hours = Math.floor(diff / 60);
-const mins = diff % 60;
-
-const countdown = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
-
-return { current, next, countdown };
-};
