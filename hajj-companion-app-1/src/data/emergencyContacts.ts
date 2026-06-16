@@ -10,16 +10,16 @@ export interface EmergencyContact {
 export const emergencyContacts: EmergencyContact[] = [
   {
     id: 'wife',
-    name: 'Abida',
+    name: 'John',
     role: 'Wife',
-    phone: '+91 9677125658',
-    whatsapp: '+919677125658'
+    phone: '+91 7562964852',
+    whatsapp: '+917562964852'
   },
   {
     id: 'son',
-    name: 'Aayaan',
+    name: 'Doe',
     role: 'Son',
-    phone: '+91 7801041620',
-    whatsapp: '+917801041620'
+    phone: '+91 6235798462',
+    whatsapp: '+916235798462'
   }
 ];
